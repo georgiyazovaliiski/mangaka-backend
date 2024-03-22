@@ -14,7 +14,11 @@ public interface MangaController {
 
     ResponseEntity<?> getAll();
 
+    // Accept either multiple JPEGs or a single PDF. If a PDF, split it to multiple
+    // images
     ResponseEntity<?> create(@ModelAttribute MangaDTO mangaDTO, @RequestParam("pages") List<MultipartFile> pages);
+
+    ResponseEntity<?> create(@ModelAttribute MangaDTO mangaDTO, @RequestParam("pages") MultipartFile pages);
 
     // Updates the general information of a manga piece
     ResponseEntity<?> update(@ModelAttribute MangaDTO mangaDTO);

@@ -1,5 +1,7 @@
 package com.mangaka.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +29,14 @@ public class MangaControllerImpl implements MangaController {
         return ResponseEntity.ok().build();
     }
 
+    // Creating a Manga from JPEGs
+    @PostMapping("/")
+    public ResponseEntity<?> create(@ModelAttribute MangaDTO mangaDTO,
+            @RequestParam("pages") List<MultipartFile> pages) {
+        return ResponseEntity.ok().build();
+    }
+
+    // Creating a Manga from a PDF file
     @PostMapping("/")
     public ResponseEntity<?> create(@ModelAttribute MangaDTO mangaDTO, @RequestParam("pages") MultipartFile pages) {
         return ResponseEntity.ok().build();
