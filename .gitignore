@@ -48,3 +48,4 @@ spring-boot-devtools.properties
 **/build/
 **/resources/*.properties
 **/resources/mangapages
+mangakaworld/src/main/resources/application.properties
