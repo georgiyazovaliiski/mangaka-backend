@@ -26,7 +26,7 @@ public class MangaMapperImpl implements MangaMapper {
 
         dto.setPagesFileNames(pagesDTO);
 
-        return new MangaDTO();
+        return dto;
     };
 
     public Manga mangaDTOtoManga(MangaDTO m) {

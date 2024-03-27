@@ -1,6 +1,5 @@
 package com.mangaka.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +8,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,13 +30,13 @@ public class MangaControllerImpl implements MangaController {
     FileVerificator fileVerificator;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> get(@PathVariable Long id) {
+        return ResponseEntity.ok().body(mangaService.getMangaById(id));
     }
 
     @GetMapping("/")
     public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(mangaService.getAllMangas());
     }
 
     // TODO: Both CreateViaJPEGs and CreateViaPDF should be saving images in the
@@ -61,9 +59,9 @@ public class MangaControllerImpl implements MangaController {
         ObjectMapper objectMapper = new ObjectMapper();
         MangaDTO mangaDTO = objectMapper.readValue(mangaDTOJson, MangaDTO.class);
 
-        mangaService.createManga(mangaDTO, pages);
+        MangaDTO resultingDTO = mangaService.createManga(mangaDTO, pages);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(resultingDTO);
     }
 
     // Creating a Manga from a PDF file
@@ -78,9 +76,9 @@ public class MangaControllerImpl implements MangaController {
         ObjectMapper objectMapper = new ObjectMapper();
         MangaDTO mangaDTO = objectMapper.readValue(mangaDTOJson, MangaDTO.class);
 
-        mangaService.createManga(mangaDTO, pages);
+        MangaDTO resultingDTO = mangaService.createManga(mangaDTO, pages);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(resultingDTO);
     }
 
     @PatchMapping("/{id}")
@@ -89,7 +87,8 @@ public class MangaControllerImpl implements MangaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete() {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        mangaService.deleteManga(id);
         return ResponseEntity.ok().build();
     }
 }
