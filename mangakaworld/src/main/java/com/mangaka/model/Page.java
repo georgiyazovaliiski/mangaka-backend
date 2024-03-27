@@ -25,4 +25,10 @@ public class Page {
     private Manga manga;
 
     private String name;
+
+    public Page(Manga manga, String name) {
+        this.manga = manga;
+        this.name = name;
+    }
+
 }

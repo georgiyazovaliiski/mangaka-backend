@@ -25,6 +25,14 @@ public class Manga {
     @OneToMany
     private List<Page> pages;
 
+    public List<Page> getPages() {
+        return this.pages;
+    }
+
+    public void setPages(List<Page> pages) {
+        this.pages = pages;
+    }
+
     public Long getId() {
         return this.id;
     }

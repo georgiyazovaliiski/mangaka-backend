@@ -2,53 +2,20 @@ package com.mangaka.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.mangaka.model.Manga;
-import com.mangaka.repository.MangaRepository;
+import com.mangaka.dto.MangaDTO;
 
-@Service
-public class MangaService {
+public interface MangaService {
+    MangaDTO createManga(MangaDTO Manga, MultipartFile file);
 
-    private final MangaRepository MangaRepository;
+    MangaDTO createManga(MangaDTO Manga, List<MultipartFile> files);
 
-    @Autowired
-    public MangaService(MangaRepository MangaRepository) {
-        this.MangaRepository = MangaRepository;
-    }
+    MangaDTO getMangaById(Long id);
 
-    // Create operation
-    public Manga createManga(Manga Manga) {
-        return MangaRepository.save(Manga);
-    }
+    List<MangaDTO> getAllMangas();
 
-    // Read operations
-    public Manga getMangaById(Long id) {
-        return MangaRepository.findById(id).orElse(null);
-    }
+    MangaDTO updateManga(Long id, MangaDTO updatedManga);
 
-    public List<Manga> getAllMangas() {
-        return MangaRepository.findAll();
-    }
-
-    // Update operation
-    public Manga updateManga(Long id, Manga updatedManga) {
-        Manga existingManga = MangaRepository.findById(id).orElse(null);
-        if (existingManga == null) {
-            // Handle error or throw exception if Manga not found
-            return null;
-        }
-
-        // Update the existing Manga with the new data
-
-        // Update other fields as needed
-
-        return MangaRepository.save(existingManga);
-    }
-
-    // Delete operation
-    public void deleteManga(Long id) {
-        MangaRepository.deleteById(id);
-    }
+    void deleteManga(Long id);
 }
