@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mangaka.dto.MangaDTO;
 
 public interface MangaController {
-        ResponseEntity<?> get();
+        ResponseEntity<?> get(@PathVariable Long id);
 
         ResponseEntity<?> getAll();
 
@@ -30,5 +31,5 @@ public interface MangaController {
         // ResponseEntity<?> addSongToPage(@ModelAttribute MangaDTO mangaDTO,
         // @RequestParam("pages") MultipartFile pages);
 
-        ResponseEntity<?> delete();
+        ResponseEntity<?> delete(@PathVariable Long id);
 }

@@ -26,6 +26,9 @@ public class Page {
 
     private String name;
 
+    public Page() {
+    }
+
     public Page(Manga manga, String name) {
         this.manga = manga;
         this.name = name;
