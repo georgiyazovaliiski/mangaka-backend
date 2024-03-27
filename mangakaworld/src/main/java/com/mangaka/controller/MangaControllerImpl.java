@@ -47,8 +47,8 @@ public class MangaControllerImpl implements MangaController {
     // later)/panel_no_1
 
     @PostMapping("/")
-    public ResponseEntity<?> createViaJPEGs(@ModelAttribute MangaDTO mangaDTO,
-            @RequestParam("pages") List<MultipartFile> pages) throws IOException {
+    public ResponseEntity<?> createViaJPEGs(@ModelAttribute("dto") MangaDTO mangaDTO,
+            @RequestParam("pages") List<MultipartFile> pages) throws Exception {
 
         if (!fileVerificator.FileIsImage(pages)) {
             return ResponseEntity.badRequest().build();
@@ -61,8 +61,8 @@ public class MangaControllerImpl implements MangaController {
 
     // Creating a Manga from a PDF file
     @PostMapping("/pdf")
-    public ResponseEntity<?> createViaPDF(@ModelAttribute MangaDTO mangaDTO,
-            @RequestParam("pages") MultipartFile pages) throws IOException {
+    public ResponseEntity<?> createViaPDF(@ModelAttribute("dto") MangaDTO mangaDTO,
+            @RequestParam("pages") MultipartFile pages) throws Exception {
         if (!fileVerificator.FileIsPDF(pages)) {
             return ResponseEntity.badRequest().build();
         }

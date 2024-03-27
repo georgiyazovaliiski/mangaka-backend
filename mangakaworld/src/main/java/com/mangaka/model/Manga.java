@@ -1,7 +1,9 @@
 package com.mangaka.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,8 +24,8 @@ public class Manga {
 
     private Long length;
 
-    @OneToMany
-    private List<Page> pages;
+    @OneToMany(mappedBy = "manga", cascade = CascadeType.ALL)
+    private List<Page> pages = new ArrayList<>();
 
     public List<Page> getPages() {
         return this.pages;

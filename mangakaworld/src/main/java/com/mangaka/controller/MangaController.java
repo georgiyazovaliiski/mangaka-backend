@@ -1,5 +1,6 @@
 package com.mangaka.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,10 @@ public interface MangaController {
     // Accept either multiple JPEGs or a single PDF. If a PDF, split it to multiple
     // images
     ResponseEntity<?> createViaJPEGs(@ModelAttribute MangaDTO mangaDTO,
-            @RequestParam("pages") List<MultipartFile> pages);
+            @RequestParam("pages") List<MultipartFile> pages) throws Exception;
 
-    ResponseEntity<?> createViaPDF(@ModelAttribute MangaDTO mangaDTO, @RequestParam("pages") MultipartFile pages);
+    ResponseEntity<?> createViaPDF(@ModelAttribute MangaDTO mangaDTO, @RequestParam("pages") MultipartFile pages)
+            throws Exception;
 
     // Updates the general information of a manga piece
     ResponseEntity<?> update(@ModelAttribute MangaDTO mangaDTO);
