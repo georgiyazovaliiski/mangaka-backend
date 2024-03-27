@@ -1,0 +1,17 @@
+com\mangaka\controller\MangaControllerImpl.class
+com\mangaka\repository\PageRepository.class
+com\mangaka\model\Page.class
+com\mangaka\mapper\MangaMapper.class
+com\mangaka\Main.class
+com\mangaka\exception\GlobalExceptionHandler.class
+com\mangaka\util\FileVerificator.class
+com\mangaka\controller\MangaController.class
+com\mangaka\mapper\MangaMapperImpl.class
+com\mangaka\model\Song.class
+com\mangaka\service\MangaService.class
+com\mangaka\util\FileSaver.class
+com\mangaka\model\Manga.class
+com\mangaka\service\MangaServiceImpl.class
+com\mangaka\repository\MangaRepository.class
+com\mangaka\dto\MangaDTO.class
+com\mangaka\repository\SongRepository.class
