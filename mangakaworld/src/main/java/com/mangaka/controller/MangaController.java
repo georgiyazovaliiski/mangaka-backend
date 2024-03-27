@@ -11,24 +11,24 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mangaka.dto.MangaDTO;
 
 public interface MangaController {
-    ResponseEntity<?> get();
+        ResponseEntity<?> get();
 
-    ResponseEntity<?> getAll();
+        ResponseEntity<?> getAll();
 
-    // Accept either multiple JPEGs or a single PDF. If a PDF, split it to multiple
-    // images
-    ResponseEntity<?> createViaJPEGs(@ModelAttribute MangaDTO mangaDTO,
-            @RequestParam("pages") List<MultipartFile> pages) throws Exception;
+        // Accept either multiple JPEGs or a single PDF. If a PDF, split it to multiple
+        // images
+        ResponseEntity<?> createViaJPEGs(@RequestParam("dto") String mangaDTO,
+                        @RequestParam("pages") List<MultipartFile> pages) throws Exception;
 
-    ResponseEntity<?> createViaPDF(@ModelAttribute MangaDTO mangaDTO, @RequestParam("pages") MultipartFile pages)
-            throws Exception;
+        ResponseEntity<?> createViaPDF(@RequestParam("dto") String mangaDTO, @RequestParam("pages") MultipartFile pages)
+                        throws Exception;
 
-    // Updates the general information of a manga piece
-    ResponseEntity<?> update(@ModelAttribute MangaDTO mangaDTO);
+        // Updates the general information of a manga piece
+        ResponseEntity<?> update(@ModelAttribute MangaDTO mangaDTO);
 
-    // Adds a song to a page of the manga
-    // ResponseEntity<?> addSongToPage(@ModelAttribute MangaDTO mangaDTO,
-    // @RequestParam("pages") MultipartFile pages);
+        // Adds a song to a page of the manga
+        // ResponseEntity<?> addSongToPage(@ModelAttribute MangaDTO mangaDTO,
+        // @RequestParam("pages") MultipartFile pages);
 
-    ResponseEntity<?> delete();
+        ResponseEntity<?> delete();
 }

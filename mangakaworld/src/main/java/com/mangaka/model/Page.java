@@ -31,4 +31,32 @@ public class Page {
         this.name = name;
     }
 
+    public Long getId() {
+        return this.id;
+    }
+
+    public Song getSong() {
+        return this.song;
+    }
+
+    public void setSong(Song song) {
+        this.song = song;
+    }
+
+    public Manga getManga() {
+        return this.manga;
+    }
+
+    public void setManga(Manga manga) {
+        this.manga = manga;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

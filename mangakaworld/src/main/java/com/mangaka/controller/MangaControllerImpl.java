@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mangaka.dto.MangaDTO;
 import com.mangaka.service.MangaService;
 import com.mangaka.util.FileVerificator;
@@ -47,12 +50,16 @@ public class MangaControllerImpl implements MangaController {
     // later)/panel_no_1
 
     @PostMapping("/")
-    public ResponseEntity<?> createViaJPEGs(@ModelAttribute("dto") MangaDTO mangaDTO,
+    public ResponseEntity<?> createViaJPEGs(
+            @RequestParam("dto") String mangaDTOJson,
             @RequestParam("pages") List<MultipartFile> pages) throws Exception {
 
         if (!fileVerificator.FileIsImage(pages)) {
             return ResponseEntity.badRequest().build();
         }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        MangaDTO mangaDTO = objectMapper.readValue(mangaDTOJson, MangaDTO.class);
 
         mangaService.createManga(mangaDTO, pages);
 
@@ -61,11 +68,15 @@ public class MangaControllerImpl implements MangaController {
 
     // Creating a Manga from a PDF file
     @PostMapping("/pdf")
-    public ResponseEntity<?> createViaPDF(@ModelAttribute("dto") MangaDTO mangaDTO,
+    public ResponseEntity<?> createViaPDF(
+            @RequestParam("dto") String mangaDTOJson,
             @RequestParam("pages") MultipartFile pages) throws Exception {
         if (!fileVerificator.FileIsPDF(pages)) {
             return ResponseEntity.badRequest().build();
         }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        MangaDTO mangaDTO = objectMapper.readValue(mangaDTOJson, MangaDTO.class);
 
         mangaService.createManga(mangaDTO, pages);
 

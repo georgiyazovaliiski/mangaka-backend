@@ -1,7 +1,10 @@
 package com.mangaka.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,29 +37,37 @@ public class MangaServiceImpl implements MangaService {
     private SongRepository songRepository;
 
     // Create operation
+    @Transactional
     public MangaDTO createManga(MangaDTO Manga, MultipartFile file) throws IOException {
-        Manga savingManga = mangaMapper.mangaDTOtoManga(Manga);
+        List<String> pageNames = fileSaver.save(file);
 
-        List<String> pageNames = fileSaver.savePdfAsJpgs(file);
+        Manga savingManga = mangaMapper.mangaDTOtoManga(Manga);
 
         for (String pageName : pageNames) {
             Page page = new Page(savingManga, pageName);
             savingManga.getPages().add(page);
         }
+
+        long length = pageNames.size();
+        savingManga.setLength(length);
 
         return mangaMapper.mangaToMangaDTO(mangaRepository.save(savingManga));
     }
 
     // Create operation
+    @Transactional
     public MangaDTO createManga(MangaDTO Manga, List<MultipartFile> files) throws IOException {
         Manga savingManga = mangaMapper.mangaDTOtoManga(Manga);
 
-        List<String> pageNames = fileSaver.saveJpgs(files);
+        List<String> pageNames = fileSaver.save(files);
 
         for (String pageName : pageNames) {
             Page page = new Page(savingManga, pageName);
             savingManga.getPages().add(page);
         }
+
+        long length = pageNames.size();
+        savingManga.setLength(length);
 
         return mangaMapper.mangaToMangaDTO(mangaRepository.save(savingManga));
     }
@@ -67,8 +78,15 @@ public class MangaServiceImpl implements MangaService {
     }
 
     public List<MangaDTO> getAllMangas() {
-        // return mangaRepository.findAll();
-        return List.of();
+        List<Manga> AllMangas = mangaRepository.findAll();
+
+        List<MangaDTO> dtos = new ArrayList<>();
+
+        for (Manga manga : AllMangas) {
+            dtos.add(mangaMapper.mangaToMangaDTO(manga));
+        }
+
+        return dtos;
     }
 
     // Update operation
