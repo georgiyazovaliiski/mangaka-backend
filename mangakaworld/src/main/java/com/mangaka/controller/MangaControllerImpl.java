@@ -1,5 +1,6 @@
 package com.mangaka.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +16,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mangaka.dto.MangaDTO;
+import com.mangaka.dto.PageDTO;
 import com.mangaka.service.MangaService;
+import com.mangaka.service.PageService;
 import com.mangaka.util.FileVerificator;
 
 @RestController
 @RequestMapping("/manga")
 public class MangaControllerImpl implements MangaController {
     @Autowired
+    ObjectMapper objectMapper;
+
+    @Autowired
     MangaService mangaService;
+
+    @Autowired
+    PageService pageService;
 
     @Autowired
     FileVerificator fileVerificator;
@@ -55,8 +67,6 @@ public class MangaControllerImpl implements MangaController {
         if (!fileVerificator.FileIsImage(pages)) {
             return ResponseEntity.badRequest().build();
         }
-
-        ObjectMapper objectMapper = new ObjectMapper();
         MangaDTO mangaDTO = objectMapper.readValue(mangaDTOJson, MangaDTO.class);
 
         MangaDTO resultingDTO = mangaService.createManga(mangaDTO, pages);
@@ -72,8 +82,6 @@ public class MangaControllerImpl implements MangaController {
         if (!fileVerificator.FileIsPDF(pages)) {
             return ResponseEntity.badRequest().build();
         }
-
-        ObjectMapper objectMapper = new ObjectMapper();
         MangaDTO mangaDTO = objectMapper.readValue(mangaDTOJson, MangaDTO.class);
 
         MangaDTO resultingDTO = mangaService.createManga(mangaDTO, pages);
@@ -82,13 +90,37 @@ public class MangaControllerImpl implements MangaController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@ModelAttribute MangaDTO mangaDTO) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> update(@PathVariable Long id, @ModelAttribute String mangaDTOJson)
+            throws JsonMappingException, JsonProcessingException {
+        MangaDTO mangaDTO = objectMapper.readValue(mangaDTOJson, MangaDTO.class);
+
+        MangaDTO resultingDTO = mangaService.updateManga(id, mangaDTO);
+        return ResponseEntity.ok().body(resultingDTO);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         mangaService.deleteManga(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<?> addSongsToMangaPages(
+            @ModelAttribute("dto") String pageSongDTOsJson,
+            @RequestParam("songs") List<MultipartFile> songs) throws IOException {
+        List<PageDTO> pageDTOs = objectMapper.readValue(pageSongDTOsJson, new TypeReference<List<PageDTO>>() {
+        });
+
+        if (pageDTOs.size() != songs.size()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        for (int i = 0; i < pageDTOs.size(); i++) {
+            PageDTO pageDTO = pageDTOs.get(i);
+            MultipartFile song = songs.get(i);
+            pageService.updateSong(pageDTO.getPageId(), pageDTO.getSongName(), song);
+        }
+
         return ResponseEntity.ok().build();
     }
 }

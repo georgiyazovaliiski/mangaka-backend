@@ -22,6 +22,9 @@ public class FileSaver {
     @Value("${manga.storage.location}")
     public String mangaStorageLocation;
 
+    @Value("$(manga.storage.song.location)")
+    public String songStorageLocation;
+
     public List<String> save(MultipartFile pdfFile) throws IOException {
         try (PDDocument document = PDDocument.load(pdfFile.getInputStream())) {
             PDFRenderer pdfRenderer = new PDFRenderer(document);
@@ -60,5 +63,18 @@ public class FileSaver {
         }
 
         return pageList;
+    }
+
+    public String saveSong(MultipartFile soundFile) throws IOException {
+        Path directory = Paths.get(songStorageLocation);
+        Files.createDirectories(directory);
+
+        String outputFileName = String.format("%s/%s%s%d%s", songStorageLocation, System.currentTimeMillis(),
+                "_page_", soundFile.getOriginalFilename(), ".mp3");
+
+        Path filePath = Paths.get(outputFileName);
+        soundFile.transferTo(filePath);
+
+        return filePath.getFileName().toString();
     }
 }

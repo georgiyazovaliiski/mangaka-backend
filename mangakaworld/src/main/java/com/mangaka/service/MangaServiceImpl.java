@@ -15,8 +15,6 @@ import com.mangaka.mapper.MangaMapper;
 import com.mangaka.model.Manga;
 import com.mangaka.model.Page;
 import com.mangaka.repository.MangaRepository;
-import com.mangaka.repository.PageRepository;
-import com.mangaka.repository.SongRepository;
 import com.mangaka.util.FileSaver;
 
 @Service
@@ -29,12 +27,6 @@ public class MangaServiceImpl implements MangaService {
 
     @Autowired
     private MangaRepository mangaRepository;
-
-    @Autowired
-    private PageRepository pageRepository;
-
-    @Autowired
-    private SongRepository songRepository;
 
     // Create operation
     @Transactional
