@@ -105,6 +105,7 @@ public class MangaControllerImpl implements MangaController {
     }
 
     @Override
+    @PostMapping("/songs")
     public ResponseEntity<?> addSongsToMangaPages(
             @ModelAttribute("dto") String pageSongDTOsJson,
             @RequestParam("songs") List<MultipartFile> songs) throws IOException {

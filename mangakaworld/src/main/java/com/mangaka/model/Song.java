@@ -1,5 +1,6 @@
 package com.mangaka.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -19,6 +20,10 @@ public class Song {
 
     @OneToMany(mappedBy = "song", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Page> pages;
+
+    public Song() {
+        this.pages = new ArrayList<>();
+    }
 
     private String name;
 

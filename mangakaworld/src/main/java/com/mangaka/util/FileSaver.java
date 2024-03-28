@@ -69,7 +69,7 @@ public class FileSaver {
         Path directory = Paths.get(songStorageLocation);
         Files.createDirectories(directory);
 
-        String outputFileName = String.format("%s/%s%s%d%s", songStorageLocation, System.currentTimeMillis(),
+        String outputFileName = String.format("%s/%s%s%s%s", songStorageLocation, System.currentTimeMillis(),
                 "_page_", soundFile.getOriginalFilename(), ".mp3");
 
         Path filePath = Paths.get(outputFileName);
